@@ -45,3 +45,22 @@ data class_bd;
 	format Birthdate ddmmyyd10.;
 	where Birthdate >= "01sep2005"d;
 run;
+
+data cars_avg;
+	format mpg_mean 5.2;
+	set sashelp.cars;
+	mpg_mean = mean(mpg_city, mpg_highway);
+run;
+
+data storm_avg;
+	set pg1.storm_range;
+	windAvg = mean(of wind1-wind4);
+run;
+
+data storm_avg;
+	set pg1.storm_range;
+	windAvg = mean(of wind:);
+/*	drop wind:; */
+/*	':' - dowolne znaki*/
+	drop wind1-wind4
+run;
