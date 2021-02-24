@@ -14,3 +14,45 @@ data np_summary2;
 	ParkType = scan(ParkName, -1);
 	keep Reg Type ParkName ParkType;
 run;
+
+data parks monuments;
+	set pg1.np_summary;
+	where Type in ('NM','NP');
+	Campers = sum(BackcountryCampers,OtherCamping,RVCampers,TentCampers);
+	format Campers comma20.;
+	length ParkType $8;
+	if type='NP' then do;
+		ParkType = 'Park';
+		output parks;
+	end;
+	else do;
+		ParkType = 'Monument';
+		output monuments;
+	end;
+
+	keep Reg ParkName DayVisits OtherLodging Campers ParkType;
+run;
+
+data parks monuments;
+	set pg1.np_summary;
+	where Type in ('NM','NP');
+	Campers = sum(BackcountryCampers,OtherCamping,RVCampers,TentCampers);
+	format Campers comma20.;
+	length ParkType $8;
+	SELECT (type);
+		when ('NP') do;
+			ParkType = 'Park';
+			output parks;
+		end;
+		otherwise do;
+			ParkType = 'Monument';
+			output monuments;
+		end;
+/*		
+		lub po prostu 
+		'oterwise;'
+*/
+	end;
+
+	keep Reg ParkName DayVisits OtherLodging Campers ParkType;
+run;
