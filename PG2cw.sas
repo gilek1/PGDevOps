@@ -1,0 +1,11 @@
+data camping(keep= ParkName Month DayVisits CampTotal) lodging(keep= ParkName Month DayVisits LodgingOther);
+	set pg2.np_2017;
+	CampTotal = sum(of Camping:);
+	format CampTotal comma20.;
+	if CampTotal > 0 then do;
+		output camping;
+	end;
+	if LodgingOther > 0 then do;
+		output lodging;
+	end;
+run;
